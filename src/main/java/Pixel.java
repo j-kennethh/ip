@@ -29,8 +29,26 @@ public class Pixel {
                 System.out.println(horizontalLine);
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < Task.getCount(); i++) {
-                    System.out.println(tasks[i].getId() + ". [ ] " + tasks[i].getName());
+                    if (tasks[i].isDone()) {
+                        System.out.println(tasks[i].getId() + ". [X] " + tasks[i].getName());
+                    } else {
+                        System.out.println(tasks[i].getId() + ". [ ] " + tasks[i].getName());
+                    }
                 }
+                System.out.println(horizontalLine);
+            } else if (line.startsWith("mark")) {
+                int id = Integer.parseInt(line.substring(line.length() - 1));
+                tasks[id - 1].setDone(true);
+                System.out.println(horizontalLine);
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("[X] " + tasks[id - 1].getName());
+                System.out.println(horizontalLine);
+            } else if (line.startsWith("unmark")) {
+                int id = Integer.parseInt(line.substring(line.length() - 1));
+                tasks[id - 1].setDone(false);
+                System.out.println(horizontalLine);
+                System.out.println("Ok, I've marked this task as not done yet:");
+                System.out.println("[ ] " + tasks[id - 1].getName());
                 System.out.println(horizontalLine);
             } else {
                 Task newTask = new Task(line);
