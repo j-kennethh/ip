@@ -21,8 +21,9 @@ public class Pixel {
         while (!line.equals("bye")) {
             if (line.equals("list")) {
                 System.out.println(horizontalLine);
+                System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < count; i++) {
-                    System.out.println(i+1 + ". " + tasks[i]);
+                    System.out.println(i+1 + ". [ ] " + tasks[i]);
                 }
                 System.out.println(horizontalLine);
             } else {
