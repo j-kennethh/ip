@@ -3,9 +3,9 @@ import java.util.Scanner;
 
 public class Pixel {
     public static String horizontalLine = "____________________________________________________________";
+    public static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
-        ArrayList<Task> tasks = new ArrayList<>();
         String line;
         Scanner in = new Scanner(System.in);
 
@@ -14,15 +14,15 @@ public class Pixel {
         line = in.nextLine();
         while (!line.equals("bye")) {
             if (line.equals("list")) {
-                listTasks(tasks);
+                listTasks();
             } else if (line.startsWith("mark")) {
-                markTask(line, tasks);
+                markTask(line);
             } else if (line.startsWith("unmark")) {
-                unmarkTask(line, tasks);
+                unmarkTask(line);
             } else if (line.startsWith("todo")) {
-                addToDo(line, tasks);
+                addToDo(line);
             } else if (line.startsWith("deadline")) {
-                addDeadline(line, tasks);
+                addDeadline(line);
             }
             line = in.nextLine();
         }
@@ -43,7 +43,7 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addToDo(String line, ArrayList<Task> tasks) {
+    private static void addToDo(String line) {
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
         System.out.println(horizontalLine);
@@ -53,7 +53,7 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addDeadline(String line, ArrayList<Task> tasks) {
+    private static void addDeadline(String line) {
         String[] sections = line.substring(9).split(" /by ");
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
@@ -64,7 +64,7 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void listTasks(ArrayList<Task> tasks) {
+    private static void listTasks() {
         System.out.println(horizontalLine);
         System.out.println("Here are the tasks in your list:");
         for (Task task : tasks) {
@@ -73,7 +73,7 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void markTask(String line, ArrayList<Task> tasks) {
+    private static void markTask(String line) {
         int id = Integer.parseInt(line.substring(line.length() - 1));
         tasks.get(id - 1).setDone(true);
         System.out.println(horizontalLine);
@@ -82,7 +82,7 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void unmarkTask(String line, ArrayList<Task> tasks) {
+    private static void unmarkTask(String line) {
         int id = Integer.parseInt(line.substring(line.length() - 1));
         tasks.get(id - 1).setDone(false);
         System.out.println(horizontalLine);
