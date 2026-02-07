@@ -21,6 +21,8 @@ public class Pixel {
                 unmarkTask(line, tasks);
             } else if (line.startsWith("todo")) {
                 addToDo(line, tasks);
+            } else if (line.startsWith("deadline")) {
+                addDeadline(line, tasks);
             }
             line = in.nextLine();
         }
@@ -51,15 +53,22 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    private static void addDeadline(String line, ArrayList<Task> tasks) {
+        String[] sections = line.substring(9).split(" /by ");
+        Deadline newDeadline = new Deadline(sections[0], sections[1]);
+        tasks.add(newDeadline);
+        System.out.println(horizontalLine);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("[D][ ] " + newDeadline.getDescription() + " (by: " + newDeadline.getDate() + ")");
+        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
+        System.out.println(horizontalLine);
+    }
+
     private static void listTasks(ArrayList<Task> tasks) {
         System.out.println(horizontalLine);
         System.out.println("Here are the tasks in your list:");
         for (Task task : tasks) {
-            if (task.isDone()) {
-                System.out.println(task.getId() + "." + task.type() + "[X] " + task.getDescription());
-            } else {
-                System.out.println(task.getId() + "." + task.type() + "[ ] " + task.getDescription());
-            }
+            System.out.println(task.list());
         }
         System.out.println(horizontalLine);
     }

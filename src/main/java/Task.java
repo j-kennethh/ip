@@ -31,7 +31,10 @@ public class Task {
         return count;
     }
 
-    public String type() {
-        return "[T]";
+    public String list() {
+        if (this.isDone()) {
+            return this.getId() + ".[T]" + "[X] " + this.getDescription();
+        }
+        return this.getId() + ".[T]" + "[ ] " + this.getDescription();
     }
 }
