@@ -33,8 +33,8 @@ public class Task {
 
     public String list() {
         if (this.isDone()) {
-            return this.getId() + ".[T]" + "[X] " + this.getDescription();
+            return id + ".[T]" + "[X] " + description;
         }
-        return this.getId() + ".[T]" + "[ ] " + this.getDescription();
+        return id + ".[T]" + "[ ] " + description;
     }
 }
