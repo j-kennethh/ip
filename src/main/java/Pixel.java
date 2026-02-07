@@ -23,6 +23,8 @@ public class Pixel {
                 addToDo(line);
             } else if (line.startsWith("deadline")) {
                 addDeadline(line);
+            } else if (line.startsWith("event")) {
+                addEvent(line);
             }
             line = in.nextLine();
         }
@@ -60,6 +62,21 @@ public class Pixel {
         System.out.println(horizontalLine);
         System.out.println("Got it. I've added this task:");
         System.out.println("[D][ ] " + newDeadline.getDescription() + " (by: " + newDeadline.getDate() + ")");
+        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
+        System.out.println(horizontalLine);
+    }
+
+    private static void addEvent(String line) {
+        int fromIndex = line.indexOf("/from");
+        int toIndex = line.indexOf("/to");
+        String description = line.substring(6, fromIndex);
+        String start = line.substring(fromIndex + 6, toIndex - 1);
+        String end = line.substring(toIndex + 4);
+        Event newEvent = new Event(description, start, end);
+        tasks.add(newEvent);
+        System.out.println(horizontalLine);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("[E][ ] " + description + "(from: " + start + " to: " + end + ")");
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(horizontalLine);
     }

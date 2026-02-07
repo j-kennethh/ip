@@ -23,4 +23,12 @@ public class Event extends Task {
     public void setEnd(String end) {
         this.end = end;
     }
+
+    @Override
+    public String list() {
+        if (this.isDone()) {
+            return this.getId() + ".[E]" + "[X] " + this.getDescription() + "(from: " + start + " to: " + end + ")";
+        }
+        return this.getId() + ".[E]" + "[ ] " + this.getDescription() + "(from: " + start + " to: " + end + ")";
+    }
 }
