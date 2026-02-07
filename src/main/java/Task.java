@@ -1,13 +1,13 @@
 public class Task {
     private final int id;
-    private final String name;
+    private final String description;
     private boolean isDone;
     private static int count = 0;
 
-    public Task(String name) {
+    public Task(String description) {
         count++;
         this.id = count;
-        this.name = name;
+        this.description = description;
         this.isDone = false;
     }
 
@@ -15,8 +15,8 @@ public class Task {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
     public boolean isDone() {
@@ -29,5 +29,9 @@ public class Task {
 
     public static int getCount() {
         return count;
+    }
+
+    public String type() {
+        return "[T]";
     }
 }
