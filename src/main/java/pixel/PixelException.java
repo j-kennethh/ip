@@ -1,3 +1,5 @@
+package pixel;
+
 public class PixelException extends RuntimeException {
     public static String horizontalLine = "____________________________________________________________";
 
