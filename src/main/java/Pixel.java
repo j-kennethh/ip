@@ -1,3 +1,4 @@
+import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,7 +21,11 @@ public class Pixel {
             } else if (line.startsWith("unmark")) {
                 unmarkTask(line);
             } else if (line.startsWith("todo")) {
-                addToDo(line);
+                try {
+                    addToDo(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
             } else if (line.startsWith("deadline")) {
                 addDeadline(line);
             } else if (line.startsWith("event")) {
@@ -45,7 +50,11 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addToDo(String line) {
+    private static void addToDo(String line) throws PixelException  {
+        String[] words = line.split(" ");
+        if (words.length < 2) {
+            throw new PixelException("Error: Missing description for ToDo");
+        }
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
         System.out.println(horizontalLine);
