@@ -7,6 +7,15 @@ public class Pixel {
     public static String horizontalLine = "____________________________________________________________";
     public static ArrayList<Task> tasks = new ArrayList<>();
 
+    /**
+     * The main entry point of the Pixel application.
+     * Initializes the scanner and runs the main command loop to process user input
+     * until the "bye" command is received.
+     * Handles various commands (todo, deadline, event, list, mark, unmark) and
+     * manages exception handling for invalid inputs.
+     *
+     * @param args Command line arguments passed to the application.
+     */
     public static void main(String[] args) {
         String line;
         Scanner in = new Scanner(System.in);
@@ -58,6 +67,10 @@ public class Pixel {
         printBye();
     }
 
+    /**
+     * Prints the standard welcome message and the initial prompt
+     * to the console when the program runs.
+     */
     public static void printHello() {
         System.out.println(horizontalLine);
         System.out.println("Hello! I'm Pixel");
@@ -65,12 +78,22 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Prints the standard farewell message to the console
+     * when the program terminates.
+     */
     public static void printBye() {
         System.out.println(horizontalLine);
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Parses the command line input to create and add a new ToDo task.
+     *
+     * @param line The full user input string containing the command and description.
+     * @throws PixelException If the description part of the command is empty.
+     */
     private static void addToDo(String line) throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 2) {
@@ -85,6 +108,13 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Parses the command line input to create and add a new Deadline task.
+     * Expects the format: "deadline [description] /by [date]".
+     *
+     * @param line The full user input string.
+     * @throws PixelException If the command format is incorrect or arguments are missing.
+     */
     private static void addDeadline(String line) throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 4 || !line.contains("/by")) {
@@ -100,6 +130,13 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Parses the command line input to create and add a new Event task.
+     * Expects the format: "event [description] /from [start] /to [end]".
+     *
+     * @param line The full user input string.
+     * @throws PixelException If the command format is incorrect, or if /from or /to tags are missing.
+     */
     private static void addEvent(String line) throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
@@ -119,6 +156,9 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Iterates through the list of tasks and prints them to the console.
+     */
     private static void listTasks() {
         System.out.println(horizontalLine);
         System.out.println("Here are the tasks in your list:");
@@ -128,6 +168,12 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Marks a specific task as done based on the task index provided in the command.
+     *
+     * @param line The full user input string (e.g., "mark 1").
+     * @throws PixelException If the argument is missing or if the task number is invalid.
+     */
     private static void markTask(String line) throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 2) {
@@ -144,6 +190,12 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
+    /**
+     * Marks a specific task as not done based on the task index provided in the command.
+     *
+     * @param line The full user input string (e.g., "unmark 1").
+     * @throws PixelException If the argument is missing or if the task number is invalid.
+     */
     private static void unmarkTask(String line) {
         String[] words = line.split(" ");
         if (words.length < 2) {
