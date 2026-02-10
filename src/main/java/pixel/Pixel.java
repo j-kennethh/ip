@@ -1,4 +1,5 @@
-import java.awt.desktop.SystemEventListener;
+package pixel;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
