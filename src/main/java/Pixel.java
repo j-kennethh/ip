@@ -27,9 +27,17 @@ public class Pixel {
                     System.out.println(e.getMessage());
                 }
             } else if (line.startsWith("deadline")) {
-                addDeadline(line);
+                try {
+                    addDeadline(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
             } else if (line.startsWith("event")) {
-                addEvent(line);
+                try {
+                    addEvent(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             line = in.nextLine();
         }
@@ -53,7 +61,7 @@ public class Pixel {
     private static void addToDo(String line) throws PixelException  {
         String[] words = line.split(" ");
         if (words.length < 2) {
-            throw new PixelException("Error: Missing description for ToDo");
+            throw new PixelException("Usage: todo [description]");
         }
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
@@ -64,7 +72,11 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addDeadline(String line) {
+    private static void addDeadline(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 4 || !line.contains("/by")) {
+            throw new PixelException("Usage: deadline [description] /by [date]");
+        }
         String[] sections = line.substring(9).split(" /by ");
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
@@ -75,7 +87,11 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addEvent(String line) {
+    private static void addEvent(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
+            throw new PixelException("Usage: event [description] /from [start] /to [end]");
+        }
         int fromIndex = line.indexOf("/from");
         int toIndex = line.indexOf("/to");
         String description = line.substring(6, fromIndex);
