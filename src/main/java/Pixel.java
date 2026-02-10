@@ -1,3 +1,4 @@
+import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,15 +17,39 @@ public class Pixel {
             if (line.equals("list")) {
                 listTasks();
             } else if (line.startsWith("mark")) {
-                markTask(line);
+                try {
+                    markTask(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
             } else if (line.startsWith("unmark")) {
-                unmarkTask(line);
+                try {
+                    unmarkTask(line);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             } else if (line.startsWith("todo")) {
-                addToDo(line);
+                try {
+                    addToDo(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
             } else if (line.startsWith("deadline")) {
-                addDeadline(line);
+                try {
+                    addDeadline(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
             } else if (line.startsWith("event")) {
-                addEvent(line);
+                try {
+                    addEvent(line);
+                } catch (PixelException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                System.out.println(horizontalLine);
+                System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, bye");
+                System.out.println(horizontalLine);
             }
             line = in.nextLine();
         }
@@ -45,7 +70,11 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addToDo(String line) {
+    private static void addToDo(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 2) {
+            throw new PixelException("Usage: todo [description]");
+        }
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
         System.out.println(horizontalLine);
@@ -55,7 +84,11 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addDeadline(String line) {
+    private static void addDeadline(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 4 || !line.contains("/by")) {
+            throw new PixelException("Usage: deadline [description] /by [date]");
+        }
         String[] sections = line.substring(9).split(" /by ");
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
@@ -66,7 +99,11 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void addEvent(String line) {
+    private static void addEvent(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
+            throw new PixelException("Usage: event [description] /from [start] /to [end]");
+        }
         int fromIndex = line.indexOf("/from");
         int toIndex = line.indexOf("/to");
         String description = line.substring(6, fromIndex);
@@ -90,8 +127,15 @@ public class Pixel {
         System.out.println(horizontalLine);
     }
 
-    private static void markTask(String line) {
+    private static void markTask(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 2) {
+            throw new PixelException("Usage: mark [task number]");
+        }
         int id = Integer.parseInt(line.substring(line.length() - 1));
+        if (id < 1 || id > Task.getCount()) {
+            throw new PixelException("Invalid task number");
+        }
         tasks.get(id - 1).setDone(true);
         System.out.println(horizontalLine);
         System.out.println("Nice! I've marked this task as done:");
@@ -100,7 +144,14 @@ public class Pixel {
     }
 
     private static void unmarkTask(String line) {
+        String[] words = line.split(" ");
+        if (words.length < 2) {
+            throw new PixelException("Usage: unmark [task number]");
+        }
         int id = Integer.parseInt(line.substring(line.length() - 1));
+        if (id < 1 || id > Task.getCount()) {
+            throw new PixelException("Invalid task number");
+        }
         tasks.get(id - 1).setDone(false);
         System.out.println(horizontalLine);
         System.out.println("Ok, I've marked this task as not done yet:");
