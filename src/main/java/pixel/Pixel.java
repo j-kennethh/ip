@@ -105,6 +105,9 @@ public class Pixel {
             throw new PixelException("Usage: deadline [description] /by [date]");
         }
         String[] sections = line.substring(9).split(" /by ");
+        if (sections.length < 2) {
+            throw new PixelException("Usage: deadline [description] /by [date]");
+        }
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
         System.out.println(HORIZONTAL_LINE);
@@ -163,7 +166,7 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: mark [task number]");
         }
-        int id = Integer.parseInt(line.substring(line.length() - 1));
+        int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
@@ -185,7 +188,7 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: unmark [task number]");
         }
-        int id = Integer.parseInt(line.substring(line.length() - 1));
+        int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
