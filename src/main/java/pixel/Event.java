@@ -41,7 +41,7 @@ public class Event extends Task {
      * @return A formatted string (e.g., "2.[E][ ] team meeting (from: 2pm to: 4pm)").
      */
     @Override
-    public String list() {
+    public String toString() {
         if (this.isDone()) {
             return this.getId() + ".[E]" + "[X] " + this.getDescription() + "(from: " + start + " to: " + end + ")";
         }

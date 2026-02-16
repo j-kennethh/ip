@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Pixel {
-    public static String horizontalLine = "____________________________________________________________";
+    public static final String HORIZONTAL_LINE = "____________________________________________________________";
     public static ArrayList<Task> tasks = new ArrayList<>();
 
     /**
@@ -24,42 +24,26 @@ public class Pixel {
 
         line = in.nextLine();
         while (!line.equals("bye")) {
-            if (line.equals("list")) {
-                listTasks();
-            } else if (line.startsWith("mark")) {
-                try {
+            try {
+                if (line.equals("list")) {
+                    listTasks();
+                } else if (line.startsWith("mark")) {
                     markTask(line);
-                } catch (PixelException e) {
-                    System.out.println(e.getMessage());
-                }
-            } else if (line.startsWith("unmark")) {
-                try {
+                } else if (line.startsWith("unmark")) {
                     unmarkTask(line);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-            } else if (line.startsWith("todo")) {
-                try {
+                } else if (line.startsWith("todo")) {
                     addToDo(line);
-                } catch (PixelException e) {
-                    System.out.println(e.getMessage());
-                }
-            } else if (line.startsWith("deadline")) {
-                try {
+                } else if (line.startsWith("deadline")) {
                     addDeadline(line);
-                } catch (PixelException e) {
-                    System.out.println(e.getMessage());
-                }
-            } else if (line.startsWith("event")) {
-                try {
+                } else if (line.startsWith("event")) {
                     addEvent(line);
-                } catch (PixelException e) {
-                    System.out.println(e.getMessage());
+                } else {
+                    System.out.println(HORIZONTAL_LINE);
+                    System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, bye");
+                    System.out.println(HORIZONTAL_LINE);
                 }
-            } else {
-                System.out.println(horizontalLine);
-                System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, bye");
-                System.out.println(horizontalLine);
+            } catch (PixelException e) {
+                System.out.println(e.getMessage());
             }
             line = in.nextLine();
         }
@@ -72,10 +56,10 @@ public class Pixel {
      * to the console when the program runs.
      */
     public static void printHello() {
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Hello! I'm Pixel");
         System.out.println("What can I do for you?");
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
@@ -83,9 +67,9 @@ public class Pixel {
      * when the program terminates.
      */
     public static void printBye() {
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
@@ -101,11 +85,11 @@ public class Pixel {
         }
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[T][ ] " + newToDo.getDescription());
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
@@ -123,11 +107,11 @@ public class Pixel {
         String[] sections = line.substring(9).split(" /by ");
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[D][ ] " + newDeadline.getDescription() + " (by: " + newDeadline.getDate() + ")");
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
@@ -149,23 +133,23 @@ public class Pixel {
         String end = line.substring(toIndex + 4);
         Event newEvent = new Event(description, start, end);
         tasks.add(newEvent);
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[E][ ] " + description + "(from: " + start + " to: " + end + ")");
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
      * Iterates through the list of tasks and prints them to the console.
      */
     private static void listTasks() {
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the tasks in your list:");
         for (Task task : tasks) {
-            System.out.println(task.list());
+            System.out.println(task.toString());
         }
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
@@ -184,10 +168,10 @@ public class Pixel {
             throw new PixelException("Invalid task number");
         }
         tasks.get(id - 1).setDone(true);
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("[X] " + tasks.get(id - 1).getDescription());
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 
     /**
@@ -196,7 +180,7 @@ public class Pixel {
      * @param line The full user input string (e.g., "unmark 1").
      * @throws PixelException If the argument is missing or if the task number is invalid.
      */
-    private static void unmarkTask(String line) {
+    private static void unmarkTask(String line) throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 2) {
             throw new PixelException("Usage: unmark [task number]");
@@ -206,9 +190,9 @@ public class Pixel {
             throw new PixelException("Invalid task number");
         }
         tasks.get(id - 1).setDone(false);
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println("[ ] " + tasks.get(id - 1).getDescription());
-        System.out.println(horizontalLine);
+        System.out.println(HORIZONTAL_LINE);
     }
 }

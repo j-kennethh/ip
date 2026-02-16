@@ -49,7 +49,8 @@ public class Task {
      *
      * @return A formatted string representing the task details.
      */
-    public String list() {
+    @Override
+    public String toString() {
         if (this.isDone()) {
             return id + ".[T]" + "[X] " + description;
         }

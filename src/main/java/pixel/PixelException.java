@@ -1,9 +1,9 @@
 package pixel;
 
-public class PixelException extends RuntimeException {
-    public static String horizontalLine = "____________________________________________________________";
+public class PixelException extends Exception {
+    public static final String HORIZONTAL_LINE = "____________________________________________________________";
 
     public PixelException(String message) {
-        super(horizontalLine + System.lineSeparator() + message + System.lineSeparator() + horizontalLine);
+        super(HORIZONTAL_LINE + System.lineSeparator() + message + System.lineSeparator() + HORIZONTAL_LINE);
     }
 }

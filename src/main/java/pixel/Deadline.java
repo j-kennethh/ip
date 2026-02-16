@@ -30,7 +30,7 @@ public class Deadline extends Task {
      * @return A formatted string (e.g., "1.[D][ ] submit report (by: Sunday)").
      */
     @Override
-    public String list() {
+    public String toString() {
         if (this.isDone()) {
             return this.getId() + ".[D]" + "[X] " + this.getDescription() + " (by: " + date + ")";
         }
