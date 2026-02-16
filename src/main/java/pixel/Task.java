@@ -42,6 +42,10 @@ public class Task {
         return count;
     }
 
+    public static void setCount(int count) {
+        Task.count = count;
+    }
+
     /**
      * Returns a string representation of the task to be displayed in the list.
      * The format includes the task ID, the type identifier "[T]", the status icon
