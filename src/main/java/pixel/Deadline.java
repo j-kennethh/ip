@@ -17,7 +17,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    public String list() {
+    public String toString() {
         if (this.isDone()) {
             return this.getId() + ".[D]" + "[X] " + this.getDescription() + " (by: " + date + ")";
         }

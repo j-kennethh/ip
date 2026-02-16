@@ -33,7 +33,8 @@ public class Task {
         return count;
     }
 
-    public String list() {
+    @Override
+    public String toString() {
         if (this.isDone()) {
             return id + ".[T]" + "[X] " + description;
         }

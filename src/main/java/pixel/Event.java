@@ -27,7 +27,7 @@ public class Event extends Task {
     }
 
     @Override
-    public String list() {
+    public String toString() {
         if (this.isDone()) {
             return this.getId() + ".[E]" + "[X] " + this.getDescription() + "(from: " + start + " to: " + end + ")";
         }
