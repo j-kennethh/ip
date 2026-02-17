@@ -1,13 +1,15 @@
 package pixel;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Pixel {
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
-    public static final String filePath = "./data.txt";
+    public static final String FILE_PATH = "./data.txt";
     public static ArrayList<Task> tasks = new ArrayList<>();
 
     /**
@@ -178,9 +180,13 @@ public class Pixel {
     private static void listTasks() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the tasks in your list:");
-        for (Task task : tasks) {
-            System.out.println(task.toString());
+
+        try {
+            printFileContents();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
         }
+
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -233,8 +239,16 @@ public class Pixel {
     }
 
     private static void appendToFile(String text) throws IOException {
-        FileWriter fw = new FileWriter(filePath, true);
+        FileWriter fw = new FileWriter(FILE_PATH, true);
         fw.write(text + System.lineSeparator());
         fw.close();
+    }
+
+    private static void printFileContents() throws FileNotFoundException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            System.out.println(s.nextLine());
+        }
     }
 }
