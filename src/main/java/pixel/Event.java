@@ -11,8 +11,8 @@ public class Event extends Task {
      * @param start       The start time or date of the event.
      * @param end         The end time or date of the event.
      */
-    public Event(String description, String start, String end) {
-        super(description);
+    public Event(String description, boolean isDone, String start, String end) {
+        super(description, isDone);
         this.start = start;
         this.end = end;
     }
@@ -43,8 +43,8 @@ public class Event extends Task {
     @Override
     public String toString() {
         if (this.isDone()) {
-            return this.getId() + ".[E]" + "[X] " + this.getDescription() + "(from: " + start + " to: " + end + ")";
+            return this.getId() + ".[E]" + "[X] " + this.getDescription() + " (from: " + start + " to: " + end + ")";
         }
-        return this.getId() + ".[E]" + "[ ] " + this.getDescription() + "(from: " + start + " to: " + end + ")";
+        return this.getId() + ".[E]" + "[ ] " + this.getDescription() + " (from: " + start + " to: " + end + ")";
     }
 }

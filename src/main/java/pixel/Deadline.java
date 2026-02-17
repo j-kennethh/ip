@@ -9,8 +9,8 @@ public class Deadline extends Task {
      * @param description The textual description of the task.
      * @param date        The date or time by which the task must be completed.
      */
-    public Deadline(String description, String date) {
-        super(description);
+    public Deadline(String description, boolean isDone, String date) {
+        super(description, isDone);
         this.date = date;
     }
 

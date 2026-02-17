@@ -27,6 +27,12 @@ public class Pixel {
 
         printHello();
 
+        try {
+            loadTasks();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
         line = in.nextLine();
         while (!line.equals("bye")) {
             try {
@@ -62,7 +68,7 @@ public class Pixel {
      * Prints the standard welcome message and the initial prompt
      * to the console when the program runs.
      */
-    public static void printHello() {
+    private static void printHello() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Hello! I'm Pixel");
         System.out.println("What can I do for you?");
@@ -73,7 +79,7 @@ public class Pixel {
      * Prints the standard farewell message to the console
      * when the program terminates.
      */
-    public static void printBye() {
+    private static void printBye() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println(HORIZONTAL_LINE);
@@ -91,18 +97,20 @@ public class Pixel {
             throw new PixelException("Usage: todo [description]");
         }
 
-        ToDo newToDo = new ToDo(line.substring(5));
+        String description = line.substring(5);
+
+        ToDo newToDo = new ToDo(description, false);
         tasks.add(newToDo);
 
         try {
-            appendToFile("T | 0 | " + newToDo.getDescription());
+            appendToFile("T | 0 | " + description);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
-        System.out.println("[T][ ] " + newToDo.getDescription());
+        System.out.println("[T][ ] " + description);
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
@@ -125,18 +133,21 @@ public class Pixel {
             throw new PixelException("Usage: deadline [description] /by [date]");
         }
 
-        Deadline newDeadline = new Deadline(sections[0], sections[1]);
+        String description = sections[0];
+        String date = sections[1];
+
+        Deadline newDeadline = new Deadline(description, false, date);
         tasks.add(newDeadline);
 
         try {
-            appendToFile("D | 0 | " + newDeadline.getDescription() + " | " + newDeadline.getDate());
+            appendToFile("D | 0 | " + description + " | " + date);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
-        System.out.println("[D][ ] " + newDeadline.getDescription() + " (by: " + newDeadline.getDate() + ")");
+        System.out.println("[D][ ] " + description + " (by: " + date + ")");
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
@@ -160,7 +171,7 @@ public class Pixel {
         String start = line.substring(fromIndex + 6, toIndex - 1);
         String end = line.substring(toIndex + 4);
 
-        Event newEvent = new Event(description, start, end);
+        Event newEvent = new Event(description, false, start, end);
         tasks.add(newEvent);
 
         try {
@@ -270,5 +281,32 @@ public class Pixel {
         while (s.hasNext()) {
             System.out.println(s.nextLine());
         }
+    }
+
+    private static void loadTasks() throws FileNotFoundException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+
+        while(s.hasNext()) {
+            String line = s.nextLine();
+            String[] words = line.split(" \\| ");
+
+            if (line.startsWith("T")) {
+                ToDo newTodo = new ToDo(words[2], strToBool(words[1]));
+                tasks.add(newTodo);
+            } else if (line.startsWith("D")) {
+                Deadline newDeadline = new Deadline(words[2], strToBool(words[1]), words[3]);
+                tasks.add(newDeadline);
+            } else if (line.startsWith("E")) {
+                Event newEvent = new Event(words[2], strToBool(words[1]), words[3], words[4]);
+                tasks.add(newEvent);
+            }
+        }
+
+        System.out.println(tasks);
+    }
+
+    private static boolean strToBool(String value) {
+        return value.equals("1");
     }
 }

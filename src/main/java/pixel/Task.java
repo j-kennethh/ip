@@ -15,11 +15,11 @@ public class Task {
      *
      * @param description The textual description of the task.
      */
-    public Task(String description) {
+    public Task(String description, boolean isDone) {
         count++;
         this.id = count;
         this.description = description;
-        this.isDone = false;
+        this.isDone = isDone;
     }
 
     public int getId() {
