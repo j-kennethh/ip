@@ -219,6 +219,13 @@ public class Pixel {
         }
 
         tasks.get(id - 1).setDone(true);
+
+        try {
+            updateFile(id - 1, true);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("[X] " + tasks.get(id - 1).getDescription());
@@ -243,6 +250,13 @@ public class Pixel {
         }
 
         tasks.get(id - 1).setDone(false);
+
+        try {
+            updateFile(id - 1, false);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println("[ ] " + tasks.get(id - 1).getDescription());
@@ -277,7 +291,7 @@ public class Pixel {
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
 
-        while(s.hasNext()) {
+        while (s.hasNext()) {
             String line = s.nextLine();
             String[] words = line.split(" \\| ");
 
@@ -296,5 +310,32 @@ public class Pixel {
 
     private static boolean strToBool(String value) {
         return value.equals("1");
+    }
+
+    private static void updateFile(int index, boolean isDone) throws IOException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+        ArrayList<String> fileContent = new ArrayList<>();
+
+        while (s.hasNext()) {
+            fileContent.add(s.nextLine());
+        }
+
+        if (0 <= index && index < fileContent.size()) {
+            String line = fileContent.get(index);
+            String[] words = line.split(" \\| ");
+            if (isDone) {
+                words[1] = "1";
+            } else {
+                words[1] = "0";
+            }
+            fileContent.set(index, String.join(" | ", words));
+        }
+
+        FileWriter fw = new FileWriter(FILE_PATH);
+        for (String line : fileContent) {
+            fw.write(line + System.lineSeparator());
+        }
+        fw.close();
     }
 }
