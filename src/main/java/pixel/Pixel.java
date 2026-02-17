@@ -268,15 +268,25 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: delete [task number]");
         }
+
         int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Noted. I've removed this task:");
-        System.out.println(tasks.get(id - 1).toString());
+
+        String task = tasks.get(id - 1).getDescription();
         tasks.remove(id - 1);
         Task.setCount(Task.getCount() - 1);
+
+        try {
+            deleteFromFile(id - 1);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println(task);
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
@@ -306,6 +316,7 @@ public class Pixel {
                 tasks.add(newEvent);
             }
         }
+        s.close();
     }
 
     private static boolean strToBool(String value) {
@@ -320,6 +331,7 @@ public class Pixel {
         while (s.hasNext()) {
             fileContent.add(s.nextLine());
         }
+        s.close();
 
         if (0 <= index && index < fileContent.size()) {
             String line = fileContent.get(index);
@@ -330,6 +342,27 @@ public class Pixel {
                 words[1] = "0";
             }
             fileContent.set(index, String.join(" | ", words));
+        }
+
+        FileWriter fw = new FileWriter(FILE_PATH);
+        for (String line : fileContent) {
+            fw.write(line + System.lineSeparator());
+        }
+        fw.close();
+    }
+
+    private static void deleteFromFile(int index) throws IOException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+        ArrayList<String> fileContent = new ArrayList<>();
+
+        while (s.hasNext()) {
+            fileContent.add(s.nextLine());
+        }
+        s.close();
+
+        if (0 <= index && index < fileContent.size()) {
+            fileContent.remove(index);
         }
 
         FileWriter fw = new FileWriter(FILE_PATH);
