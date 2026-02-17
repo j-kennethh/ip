@@ -110,8 +110,8 @@ public class Pixel {
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
-        System.out.println("[T][ ] " + description);
-        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
+        System.out.println(newToDo);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -147,8 +147,8 @@ public class Pixel {
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
-        System.out.println("[D][ ] " + description + " (by: " + date + ")");
-        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
+        System.out.println(newDeadline);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -182,8 +182,8 @@ public class Pixel {
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
-        System.out.println("[E][ ] " + description + " (from: " + start + " to: " + end + ")");
-        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
+        System.out.println(newEvent);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -194,8 +194,8 @@ public class Pixel {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the tasks in your list:");
 
-        for (Task task : tasks) {
-            System.out.println(task);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
         }
 
         System.out.println(HORIZONTAL_LINE);
@@ -214,7 +214,7 @@ public class Pixel {
         }
 
         int id = Integer.parseInt(words[1]);
-        if (id < 1 || id > Task.getCount()) {
+        if (id < 1 || id > tasks.size()) {
             throw new PixelException("Invalid task number");
         }
 
@@ -228,7 +228,7 @@ public class Pixel {
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Nice! I've marked this task as done:");
-        System.out.println("[X] " + tasks.get(id - 1).getDescription());
+        System.out.println(tasks.get(id - 1));
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -245,7 +245,7 @@ public class Pixel {
         }
 
         int id = Integer.parseInt(words[1]);
-        if (id < 1 || id > Task.getCount()) {
+        if (id < 1 || id > tasks.size()) {
             throw new PixelException("Invalid task number");
         }
 
@@ -259,7 +259,7 @@ public class Pixel {
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Ok, I've marked this task as not done yet:");
-        System.out.println("[ ] " + tasks.get(id - 1).getDescription());
+        System.out.println(tasks.get(id - 1));
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -270,13 +270,12 @@ public class Pixel {
         }
 
         int id = Integer.parseInt(words[1]);
-        if (id < 1 || id > Task.getCount()) {
+        if (id < 1 || id > tasks.size()) {
             throw new PixelException("Invalid task number");
         }
 
-        String task = tasks.get(id - 1).getDescription();
+        Task deletedTask = tasks.get(id - 1);
         tasks.remove(id - 1);
-        Task.setCount(Task.getCount() - 1);
 
         try {
             deleteFromFile(id - 1);
@@ -286,8 +285,8 @@ public class Pixel {
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Noted. I've removed this task:");
-        System.out.println(task);
-        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
+        System.out.println(deletedTask);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
 

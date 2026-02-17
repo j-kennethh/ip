@@ -43,8 +43,8 @@ public class Event extends Task {
     @Override
     public String toString() {
         if (this.isDone()) {
-            return this.getId() + ".[E]" + "[X] " + this.getDescription() + " (from: " + start + " to: " + end + ")";
+            return "[E][X] " + this.getDescription() + " (from: " + start + " to: " + end + ")";
         }
-        return this.getId() + ".[E]" + "[ ] " + this.getDescription() + " (from: " + start + " to: " + end + ")";
+        return "[E][ ] " + this.getDescription() + " (from: " + start + " to: " + end + ")";
     }
 }

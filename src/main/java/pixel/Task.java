@@ -1,10 +1,8 @@
 package pixel;
 
 public class Task {
-    private final int id;
     private final String description;
     private boolean isDone;
-    private static int count = 0;
 
     /**
      * Constructs a new Task with the specified description.
@@ -16,14 +14,8 @@ public class Task {
      * @param description The textual description of the task.
      */
     public Task(String description, boolean isDone) {
-        count++;
-        this.id = count;
         this.description = description;
         this.isDone = isDone;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getDescription() {
@@ -38,14 +30,6 @@ public class Task {
         this.isDone = isDone;
     }
 
-    public static int getCount() {
-        return count;
-    }
-
-    public static void setCount(int count) {
-        Task.count = count;
-    }
-
     /**
      * Returns a string representation of the task to be displayed in the list.
      * The format includes the task ID, the type identifier "[T]", the status icon
@@ -55,9 +39,9 @@ public class Task {
      */
     @Override
     public String toString() {
-        if (this.isDone()) {
-            return id + ".[T]" + "[X] " + description;
+        if (isDone) {
+            return "[T][X] " + description;
         }
-        return id + ".[T]" + "[ ] " + description;
+        return "[T][ ] " + description;
     }
 }
