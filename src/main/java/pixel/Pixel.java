@@ -194,10 +194,8 @@ public class Pixel {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the tasks in your list:");
 
-        try {
-            printFileContents();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
+        for (Task task : tasks) {
+            System.out.println(task);
         }
 
         System.out.println(HORIZONTAL_LINE);
@@ -275,14 +273,6 @@ public class Pixel {
         fw.close();
     }
 
-    private static void printFileContents() throws FileNotFoundException {
-        File f = new File(FILE_PATH);
-        Scanner s = new Scanner(f);
-        while (s.hasNext()) {
-            System.out.println(s.nextLine());
-        }
-    }
-
     private static void loadTasks() throws FileNotFoundException {
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
@@ -302,8 +292,6 @@ public class Pixel {
                 tasks.add(newEvent);
             }
         }
-
-        System.out.println(tasks);
     }
 
     private static boolean strToBool(String value) {
