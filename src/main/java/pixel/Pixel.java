@@ -95,7 +95,7 @@ public class Pixel {
         tasks.add(newToDo);
 
         try {
-            appendToFile(newToDo.toString());
+            appendToFile("T | 0 | " + newToDo.getDescription());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -129,7 +129,7 @@ public class Pixel {
         tasks.add(newDeadline);
 
         try {
-            appendToFile(newDeadline.toString());
+            appendToFile("D | 0 | " + newDeadline.getDescription() + " | " + newDeadline.getDate());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -156,7 +156,7 @@ public class Pixel {
 
         int fromIndex = line.indexOf("/from");
         int toIndex = line.indexOf("/to");
-        String description = line.substring(6, fromIndex);
+        String description = line.substring(6, fromIndex - 1);
         String start = line.substring(fromIndex + 6, toIndex - 1);
         String end = line.substring(toIndex + 4);
 
@@ -164,14 +164,14 @@ public class Pixel {
         tasks.add(newEvent);
 
         try {
-            appendToFile(newEvent.toString());
+            appendToFile("E | 0 | " + description + " | " + start + " | " + end);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
-        System.out.println("[E][ ] " + description + "(from: " + start + " to: " + end + ")");
+        System.out.println("[E][ ] " + description + " (from: " + start + " to: " + end + ")");
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
