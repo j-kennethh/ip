@@ -1,10 +1,15 @@
 package pixel;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Pixel {
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
+    public static final String FILE_PATH = "./data.txt";
     public static ArrayList<Task> tasks = new ArrayList<>();
 
     /**
@@ -85,8 +90,16 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: todo [description]");
         }
+
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
+
+        try {
+            appendToFile(newToDo.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[T][ ] " + newToDo.getDescription());
@@ -106,12 +119,21 @@ public class Pixel {
         if (words.length < 4 || !line.contains("/by")) {
             throw new PixelException("Usage: deadline [description] /by [date]");
         }
+
         String[] sections = line.substring(9).split(" /by ");
         if (sections.length < 2) {
             throw new PixelException("Usage: deadline [description] /by [date]");
         }
+
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
+
+        try {
+            appendToFile(newDeadline.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[D][ ] " + newDeadline.getDescription() + " (by: " + newDeadline.getDate() + ")");
@@ -131,13 +153,22 @@ public class Pixel {
         if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
             throw new PixelException("Usage: event [description] /from [start] /to [end]");
         }
+
         int fromIndex = line.indexOf("/from");
         int toIndex = line.indexOf("/to");
         String description = line.substring(6, fromIndex);
         String start = line.substring(fromIndex + 6, toIndex - 1);
         String end = line.substring(toIndex + 4);
+
         Event newEvent = new Event(description, start, end);
         tasks.add(newEvent);
+
+        try {
+            appendToFile(newEvent.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[E][ ] " + description + "(from: " + start + " to: " + end + ")");
@@ -151,9 +182,13 @@ public class Pixel {
     private static void listTasks() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the tasks in your list:");
-        for (Task task : tasks) {
-            System.out.println(task.toString());
+
+        try {
+            printFileContents();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
         }
+
         System.out.println(HORIZONTAL_LINE);
     }
 
@@ -168,10 +203,12 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: mark [task number]");
         }
+
         int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
+
         tasks.get(id - 1).setDone(true);
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Nice! I've marked this task as done:");
@@ -190,10 +227,12 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: unmark [task number]");
         }
+
         int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
+
         tasks.get(id - 1).setDone(false);
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Ok, I've marked this task as not done yet:");
@@ -217,5 +256,19 @@ public class Pixel {
         Task.setCount(Task.getCount() - 1);
         System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
+    }
+
+    private static void appendToFile(String text) throws IOException {
+        FileWriter fw = new FileWriter(FILE_PATH, true);
+        fw.write(text + System.lineSeparator());
+        fw.close();
+    }
+
+    private static void printFileContents() throws FileNotFoundException {
+        File f = new File(FILE_PATH);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            System.out.println(s.nextLine());
+        }
     }
 }
