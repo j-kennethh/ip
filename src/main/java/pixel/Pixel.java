@@ -37,6 +37,8 @@ public class Pixel {
                     addDeadline(line);
                 } else if (line.startsWith("event")) {
                     addEvent(line);
+                } else if (line.startsWith("delete")) {
+                    deleteTask(line);
                 } else {
                     System.out.println(HORIZONTAL_LINE);
                     System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, bye");
@@ -196,6 +198,24 @@ public class Pixel {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println("[ ] " + tasks.get(id - 1).getDescription());
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    private static void deleteTask(String line) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 2) {
+            throw new PixelException("Usage: delete [task number]");
+        }
+        int id = Integer.parseInt(words[1]);
+        if (id < 1 || id > Task.getCount()) {
+            throw new PixelException("Invalid task number");
+        }
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println(tasks.get(id - 1).toString());
+        tasks.remove(id - 1);
+        Task.setCount(Task.getCount() - 1);
+        System.out.println("Now you have " + Task.getCount() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
 }
