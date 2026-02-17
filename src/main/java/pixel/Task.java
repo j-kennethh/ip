@@ -5,13 +5,10 @@ public class Task {
     private boolean isDone;
 
     /**
-     * Constructs a new Task with the specified description.
-     * <p>
-     * This constructor automatically increments the static task count,
-     * assigns a unique ID to the new instance, and initializes the
-     * task status as incomplete (not done).
+     * Constructs a new Task with the specified description and completion status.
      *
      * @param description The textual description of the task.
+     * @param isDone      The initial completion status of the task.
      */
     public Task(String description, boolean isDone) {
         this.description = description;
@@ -32,7 +29,7 @@ public class Task {
 
     /**
      * Returns a string representation of the task to be displayed in the list.
-     * The format includes the task ID, the type identifier "[T]", the status icon
+     * The format includes the type identifier "[T]", the status icon
      * ("[X]" if done, "[ ]" if not done), and the task description.
      *
      * @return A formatted string representing the task details.

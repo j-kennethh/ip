@@ -4,9 +4,10 @@ public class Deadline extends Task {
     private String date;
 
     /**
-     * Constructs a new Deadline task with the specified description and due date.
+     * Constructs a new Deadline task with the specified description, status, and due date.
      *
      * @param description The textual description of the task.
+     * @param isDone      The completion status of the task.
      * @param date        The date or time by which the task must be completed.
      */
     public Deadline(String description, boolean isDone, String date) {
@@ -24,10 +25,10 @@ public class Deadline extends Task {
 
     /**
      * Returns a string representation of the Deadline task.
-     * Includes the task ID, the "[D]" type identifier, the status icon,
+     * Includes the "[D]" type identifier, the status icon,
      * the description, and the due date.
      *
-     * @return A formatted string (e.g., "1.[D][ ] submit report (by: Sunday)").
+     * @return A formatted string (e.g., "[D][ ] submit report (by: Sunday)").
      */
     @Override
     public String toString() {

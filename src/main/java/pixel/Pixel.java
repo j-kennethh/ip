@@ -14,10 +14,10 @@ public class Pixel {
 
     /**
      * The main entry point of the Pixel application.
-     * Initializes the scanner and runs the main command loop to process user input
-     * until the "bye" command is received.
-     * Handles various commands (todo, deadline, event, list, mark, unmark) and
-     * manages exception handling for invalid inputs.
+     * <p>
+     * Initializes the application by loading existing tasks from the storage file.
+     * Runs the main command loop to process user input until the "bye" command is received.
+     * Handles command delegation and exception management.
      *
      * @param args Command line arguments passed to the application.
      */
@@ -86,7 +86,8 @@ public class Pixel {
     }
 
     /**
-     * Parses the command line input to create and add a new ToDo task.
+     * Parses the command line input to create a new ToDo task.
+     * Adds the task to the internal list and appends it to the storage file.
      *
      * @param line The full user input string containing the command and description.
      * @throws PixelException If the description part of the command is empty.
@@ -116,7 +117,8 @@ public class Pixel {
     }
 
     /**
-     * Parses the command line input to create and add a new Deadline task.
+     * Parses the command line input to create a new Deadline task.
+     * Adds the task to the internal list and appends it to the storage file.
      * Expects the format: "deadline [description] /by [date]".
      *
      * @param line The full user input string.
@@ -153,11 +155,12 @@ public class Pixel {
     }
 
     /**
-     * Parses the command line input to create and add a new Event task.
+     * Parses the command line input to create a new Event task.
+     * Adds the task to the internal list and appends it to the storage file.
      * Expects the format: "event [description] /from [start] /to [end]".
      *
      * @param line The full user input string.
-     * @throws PixelException If the command format is incorrect, or if /from or /to tags are missing.
+     * @throws PixelException If the command format is incorrect, or if tags are missing.
      */
     private static void addEvent(String line) throws PixelException {
         String[] words = line.split(" ");
@@ -189,6 +192,7 @@ public class Pixel {
 
     /**
      * Iterates through the list of tasks and prints them to the console.
+     * The list index is generated dynamically (1-based index).
      */
     private static void listTasks() {
         System.out.println(HORIZONTAL_LINE);
@@ -202,7 +206,7 @@ public class Pixel {
     }
 
     /**
-     * Marks a specific task as done based on the task index provided in the command.
+     * Marks a specific task as done in both the internal list and the storage file.
      *
      * @param line The full user input string (e.g., "mark 1").
      * @throws PixelException If the argument is missing or if the task number is invalid.
@@ -233,7 +237,7 @@ public class Pixel {
     }
 
     /**
-     * Marks a specific task as not done based on the task index provided in the command.
+     * Marks a specific task as not done in both the internal list and the storage file.
      *
      * @param line The full user input string (e.g., "unmark 1").
      * @throws PixelException If the argument is missing or if the task number is invalid.
@@ -263,6 +267,12 @@ public class Pixel {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /**
+     * Deletes a task from the list and the storage file based on the provided index.
+     *
+     * @param line The full user input string (e.g., "delete 1").
+     * @throws PixelException If the argument is missing or if the task number is invalid.
+     */
     private static void deleteTask(String line) throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 2) {
@@ -290,12 +300,24 @@ public class Pixel {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /**
+     * Appends a formatted string representation of a task to the storage file.
+     *
+     * @param text The string to append to the file.
+     * @throws IOException If an I/O error occurs during writing.
+     */
     private static void appendToFile(String text) throws IOException {
         FileWriter fw = new FileWriter(FILE_PATH, true);
         fw.write(text + System.lineSeparator());
         fw.close();
     }
 
+    /**
+     * Loads tasks from the storage file into the application's memory upon startup.
+     * Parses the file content to recreate ToDo, Deadline, and Event objects.
+     *
+     * @throws FileNotFoundException If the data file does not exist (ignored in main).
+     */
     private static void loadTasks() throws FileNotFoundException {
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
@@ -318,10 +340,24 @@ public class Pixel {
         s.close();
     }
 
+    /**
+     * Helper method to convert a string "1" or "0" from the file to a boolean.
+     *
+     * @param value The string value ("1" for true, "0" for false).
+     * @return true if value is "1", false otherwise.
+     */
     private static boolean strToBool(String value) {
         return value.equals("1");
     }
 
+    /**
+     * Updates the completion status (0 or 1) of a task in the storage file.
+     * Reads the entire file, modifies the specific line, and rewrites the file.
+     *
+     * @param index  The 0-based index of the task to update.
+     * @param isDone The new status of the task.
+     * @throws IOException If an I/O error occurs during reading or writing.
+     */
     private static void updateFile(int index, boolean isDone) throws IOException {
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
@@ -350,6 +386,13 @@ public class Pixel {
         fw.close();
     }
 
+    /**
+     * Removes a line corresponding to a deleted task from the storage file.
+     * Reads the entire file, removes the specific line, and rewrites the file.
+     *
+     * @param index The 0-based index of the line to remove.
+     * @throws IOException If an I/O error occurs during reading or writing.
+     */
     private static void deleteFromFile(int index) throws IOException {
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
