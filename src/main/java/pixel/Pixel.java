@@ -27,11 +27,7 @@ public class Pixel {
 
         printHello();
 
-        try {
-            loadTasks();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        loadTasks();
 
         line = in.nextLine();
         while (!line.equals("bye")) {
@@ -301,12 +297,35 @@ public class Pixel {
     }
 
     /**
+     * Checks if the data file and its parent directory exist.
+     * If they do not exist, this method creates them.
+     *
+     * @throws IOException If the directory or file cannot be created.
+     */
+    private static void checkFileExists() throws IOException {
+        File f = new File(FILE_PATH);
+
+        if (f.getParentFile() != null && !f.getParentFile().exists()) {
+            if (!f.getParentFile().mkdirs()) {
+                throw new IOException("Failed to create directory: " + f.getParentFile());
+            }
+        }
+
+        if (!f.exists()) {
+            if (!f.createNewFile()) {
+                throw new IOException("Failed to create file: " + f.getAbsolutePath());
+            }
+        }
+    }
+
+    /**
      * Appends a formatted string representation of a task to the storage file.
      *
      * @param text The string to append to the file.
      * @throws IOException If an I/O error occurs during writing.
      */
     private static void appendToFile(String text) throws IOException {
+        checkFileExists();
         FileWriter fw = new FileWriter(FILE_PATH, true);
         fw.write(text + System.lineSeparator());
         fw.close();
@@ -315,29 +334,35 @@ public class Pixel {
     /**
      * Loads tasks from the storage file into the application's memory upon startup.
      * Parses the file content to recreate ToDo, Deadline, and Event objects.
-     *
-     * @throws FileNotFoundException If the data file does not exist (ignored in main).
      */
-    private static void loadTasks() throws FileNotFoundException {
+    private static void loadTasks() {
         File f = new File(FILE_PATH);
-        Scanner s = new Scanner(f);
 
-        while (s.hasNext()) {
-            String line = s.nextLine();
-            String[] words = line.split(" \\| ");
-
-            if (line.startsWith("T")) {
-                ToDo newTodo = new ToDo(words[2], strToBool(words[1]));
-                tasks.add(newTodo);
-            } else if (line.startsWith("D")) {
-                Deadline newDeadline = new Deadline(words[2], strToBool(words[1]), words[3]);
-                tasks.add(newDeadline);
-            } else if (line.startsWith("E")) {
-                Event newEvent = new Event(words[2], strToBool(words[1]), words[3], words[4]);
-                tasks.add(newEvent);
-            }
+        if (!f.exists()) {
+            return;
         }
-        s.close();
+
+        try {
+            Scanner s = new Scanner(f);
+            while (s.hasNext()) {
+                String line = s.nextLine();
+                String[] words = line.split(" \\| ");
+
+                if (line.startsWith("T")) {
+                    ToDo newTodo = new ToDo(words[2], strToBool(words[1]));
+                    tasks.add(newTodo);
+                } else if (line.startsWith("D")) {
+                    Deadline newDeadline = new Deadline(words[2], strToBool(words[1]), words[3]);
+                    tasks.add(newDeadline);
+                } else if (line.startsWith("E")) {
+                    Event newEvent = new Event(words[2], strToBool(words[1]), words[3], words[4]);
+                    tasks.add(newEvent);
+                }
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -359,6 +384,7 @@ public class Pixel {
      * @throws IOException If an I/O error occurs during reading or writing.
      */
     private static void updateFile(int index, boolean isDone) throws IOException {
+        checkFileExists();
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
         ArrayList<String> fileContent = new ArrayList<>();
@@ -394,6 +420,7 @@ public class Pixel {
      * @throws IOException If an I/O error occurs during reading or writing.
      */
     private static void deleteFromFile(int index) throws IOException {
+        checkFileExists();
         File f = new File(FILE_PATH);
         Scanner s = new Scanner(f);
         ArrayList<String> fileContent = new ArrayList<>();
