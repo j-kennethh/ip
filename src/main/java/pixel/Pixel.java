@@ -2,9 +2,12 @@ package pixel;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Pixel {
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
+    public static final String filePath = "./data.txt";
     public static ArrayList<Task> tasks = new ArrayList<>();
 
     /**
@@ -83,8 +86,16 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: todo [description]");
         }
+
         ToDo newToDo = new ToDo(line.substring(5));
         tasks.add(newToDo);
+
+        try {
+            appendToFile(newToDo.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[T][ ] " + newToDo.getDescription());
@@ -104,12 +115,21 @@ public class Pixel {
         if (words.length < 4 || !line.contains("/by")) {
             throw new PixelException("Usage: deadline [description] /by [date]");
         }
+
         String[] sections = line.substring(9).split(" /by ");
         if (sections.length < 2) {
             throw new PixelException("Usage: deadline [description] /by [date]");
         }
+
         Deadline newDeadline = new Deadline(sections[0], sections[1]);
         tasks.add(newDeadline);
+
+        try {
+            appendToFile(newDeadline.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[D][ ] " + newDeadline.getDescription() + " (by: " + newDeadline.getDate() + ")");
@@ -129,13 +149,22 @@ public class Pixel {
         if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
             throw new PixelException("Usage: event [description] /from [start] /to [end]");
         }
+
         int fromIndex = line.indexOf("/from");
         int toIndex = line.indexOf("/to");
         String description = line.substring(6, fromIndex);
         String start = line.substring(fromIndex + 6, toIndex - 1);
         String end = line.substring(toIndex + 4);
+
         Event newEvent = new Event(description, start, end);
         tasks.add(newEvent);
+
+        try {
+            appendToFile(newEvent.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("[E][ ] " + description + "(from: " + start + " to: " + end + ")");
@@ -166,10 +195,12 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: mark [task number]");
         }
+
         int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
+
         tasks.get(id - 1).setDone(true);
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Nice! I've marked this task as done:");
@@ -188,14 +219,22 @@ public class Pixel {
         if (words.length < 2) {
             throw new PixelException("Usage: unmark [task number]");
         }
+
         int id = Integer.parseInt(words[1]);
         if (id < 1 || id > Task.getCount()) {
             throw new PixelException("Invalid task number");
         }
+
         tasks.get(id - 1).setDone(false);
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println("[ ] " + tasks.get(id - 1).getDescription());
         System.out.println(HORIZONTAL_LINE);
+    }
+
+    private static void appendToFile(String text) throws IOException {
+        FileWriter fw = new FileWriter(filePath, true);
+        fw.write(text + System.lineSeparator());
+        fw.close();
     }
 }
