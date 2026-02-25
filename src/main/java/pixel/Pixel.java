@@ -25,7 +25,9 @@ public class Pixel {
         String line;
         Scanner in = new Scanner(System.in);
 
-        printHello();
+        Ui ui = new Ui();
+
+        ui.printHello();
 
         loadTasks();
 
@@ -33,7 +35,7 @@ public class Pixel {
         while (!line.equals("bye")) {
             try {
                 if (line.equals("list")) {
-                    listTasks();
+                    ui.listTasks(tasks);
                 } else if (line.startsWith("mark")) {
                     markTask(line);
                 } else if (line.startsWith("unmark")) {
@@ -57,28 +59,7 @@ public class Pixel {
             line = in.nextLine();
         }
 
-        printBye();
-    }
-
-    /**
-     * Prints the standard welcome message and the initial prompt
-     * to the console when the program runs.
-     */
-    private static void printHello() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Hello! I'm Pixel");
-        System.out.println("What can I do for you?");
-        System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Prints the standard farewell message to the console
-     * when the program terminates.
-     */
-    private static void printBye() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(HORIZONTAL_LINE);
+        ui.printBye();
     }
 
     /**
@@ -183,21 +164,6 @@ public class Pixel {
         System.out.println("Got it. I've added this task:");
         System.out.println(newEvent);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Iterates through the list of tasks and prints them to the console.
-     * The list index is generated dynamically (1-based index).
-     */
-    private static void listTasks() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Here are the tasks in your list:");
-
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
-        }
-
         System.out.println(HORIZONTAL_LINE);
     }
 
