@@ -1,7 +1,6 @@
 package pixel;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +80,8 @@ public class Pixel {
         tasks.add(newToDo);
 
         try {
-            appendToFile("T | 0 | " + description);
+            Storage storage = new Storage(FILE_PATH);
+            storage.appendToFile("T | 0 | " + description);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -119,7 +119,8 @@ public class Pixel {
         tasks.add(newDeadline);
 
         try {
-            appendToFile("D | 0 | " + description + " | " + date);
+            Storage storage = new Storage(FILE_PATH);
+            storage.appendToFile("D | 0 | " + description + " | " + date);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -155,7 +156,8 @@ public class Pixel {
         tasks.add(newEvent);
 
         try {
-            appendToFile("E | 0 | " + description + " | " + start + " | " + end);
+            Storage storage = new Storage(FILE_PATH);
+            storage.appendToFile("E | 0 | " + description + " | " + start + " | " + end);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -187,7 +189,8 @@ public class Pixel {
         tasks.get(id - 1).setDone(true);
 
         try {
-            updateFile(id - 1, true);
+            Storage storage = new Storage(FILE_PATH);
+            storage.updateFile(id - 1, true);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -218,7 +221,8 @@ public class Pixel {
         tasks.get(id - 1).setDone(false);
 
         try {
-            updateFile(id - 1, false);
+            Storage storage = new Storage(FILE_PATH);
+            storage.updateFile(id - 1, false);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -250,7 +254,8 @@ public class Pixel {
         tasks.remove(id - 1);
 
         try {
-            deleteFromFile(id - 1);
+            Storage storage = new Storage(FILE_PATH);
+            storage.deleteFromFile(id - 1);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -260,41 +265,6 @@ public class Pixel {
         System.out.println(deletedTask);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Checks if the data file and its parent directory exist.
-     * If they do not exist, this method creates them.
-     *
-     * @throws IOException If the directory or file cannot be created.
-     */
-    private static void checkFileExists() throws IOException {
-        File f = new File(FILE_PATH);
-
-        if (f.getParentFile() != null && !f.getParentFile().exists()) {
-            if (!f.getParentFile().mkdirs()) {
-                throw new IOException("Failed to create directory: " + f.getParentFile());
-            }
-        }
-
-        if (!f.exists()) {
-            if (!f.createNewFile()) {
-                throw new IOException("Failed to create file: " + f.getAbsolutePath());
-            }
-        }
-    }
-
-    /**
-     * Appends a formatted string representation of a task to the storage file.
-     *
-     * @param text The string to append to the file.
-     * @throws IOException If an I/O error occurs during writing.
-     */
-    private static void appendToFile(String text) throws IOException {
-        checkFileExists();
-        FileWriter fw = new FileWriter(FILE_PATH, true);
-        fw.write(text + System.lineSeparator());
-        fw.close();
     }
 
     /**
@@ -339,71 +309,5 @@ public class Pixel {
      */
     private static boolean strToBool(String value) {
         return value.equals("1");
-    }
-
-    /**
-     * Updates the completion status (0 or 1) of a task in the storage file.
-     * Reads the entire file, modifies the specific line, and rewrites the file.
-     *
-     * @param index  The 0-based index of the task to update.
-     * @param isDone The new status of the task.
-     * @throws IOException If an I/O error occurs during reading or writing.
-     */
-    private static void updateFile(int index, boolean isDone) throws IOException {
-        checkFileExists();
-        File f = new File(FILE_PATH);
-        Scanner s = new Scanner(f);
-        ArrayList<String> fileContent = new ArrayList<>();
-
-        while (s.hasNext()) {
-            fileContent.add(s.nextLine());
-        }
-        s.close();
-
-        if (0 <= index && index < fileContent.size()) {
-            String line = fileContent.get(index);
-            String[] words = line.split(" \\| ");
-            if (isDone) {
-                words[1] = "1";
-            } else {
-                words[1] = "0";
-            }
-            fileContent.set(index, String.join(" | ", words));
-        }
-
-        FileWriter fw = new FileWriter(FILE_PATH);
-        for (String line : fileContent) {
-            fw.write(line + System.lineSeparator());
-        }
-        fw.close();
-    }
-
-    /**
-     * Removes a line corresponding to a deleted task from the storage file.
-     * Reads the entire file, removes the specific line, and rewrites the file.
-     *
-     * @param index The 0-based index of the line to remove.
-     * @throws IOException If an I/O error occurs during reading or writing.
-     */
-    private static void deleteFromFile(int index) throws IOException {
-        checkFileExists();
-        File f = new File(FILE_PATH);
-        Scanner s = new Scanner(f);
-        ArrayList<String> fileContent = new ArrayList<>();
-
-        while (s.hasNext()) {
-            fileContent.add(s.nextLine());
-        }
-        s.close();
-
-        if (0 <= index && index < fileContent.size()) {
-            fileContent.remove(index);
-        }
-
-        FileWriter fw = new FileWriter(FILE_PATH);
-        for (String line : fileContent) {
-            fw.write(line + System.lineSeparator());
-        }
-        fw.close();
     }
 }
