@@ -19,6 +19,12 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public void printInvalidCommand() {
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, delete, bye");
+        System.out.println(HORIZONTAL_LINE);
+    }
+
     /**
      * Prints the standard farewell message to the console
      * when the program terminates.

@@ -47,9 +47,7 @@ public class Pixel {
                 } else if (line.startsWith("delete")) {
                     deleteTask(line);
                 } else {
-                    System.out.println(HORIZONTAL_LINE);
-                    System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, bye");
-                    System.out.println(HORIZONTAL_LINE);
+                    ui.printInvalidCommand();
                 }
             } catch (PixelException e) {
                 System.out.println(e.getMessage());
