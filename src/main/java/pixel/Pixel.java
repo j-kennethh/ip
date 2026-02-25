@@ -68,12 +68,8 @@ public class Pixel {
      * @throws PixelException If the description part of the command is empty.
      */
     private static void addToDo(String line) throws PixelException {
-        String[] words = line.split(" ");
-        if (words.length < 2) {
-            throw new PixelException("Usage: todo [description]");
-        }
-
-        String description = line.substring(5);
+        Parser parser = new Parser(line);
+        String description = parser.parseToDo();
 
         ToDo newToDo = new ToDo(description, false);
         tasks.add(newToDo);
@@ -101,15 +97,8 @@ public class Pixel {
      * @throws PixelException If the command format is incorrect or arguments are missing.
      */
     private static void addDeadline(String line) throws PixelException {
-        String[] words = line.split(" ");
-        if (words.length < 4 || !line.contains("/by")) {
-            throw new PixelException("Usage: deadline [description] /by [date]");
-        }
-
-        String[] sections = line.substring(9).split(" /by ");
-        if (sections.length < 2) {
-            throw new PixelException("Usage: deadline [description] /by [date]");
-        }
+        Parser parser = new Parser(line);
+        String[] sections = parser.parseDeadline();
 
         String description = sections[0];
         String date = sections[1];
@@ -140,16 +129,12 @@ public class Pixel {
      * @throws PixelException If the command format is incorrect, or if tags are missing.
      */
     private static void addEvent(String line) throws PixelException {
-        String[] words = line.split(" ");
-        if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
-            throw new PixelException("Usage: event [description] /from [start] /to [end]");
-        }
+        Parser parser = new Parser(line);
+        String[] sections = parser.parseEvent();
 
-        int fromIndex = line.indexOf("/from");
-        int toIndex = line.indexOf("/to");
-        String description = line.substring(6, fromIndex - 1);
-        String start = line.substring(fromIndex + 6, toIndex - 1);
-        String end = line.substring(toIndex + 4);
+        String description = sections[0];
+        String start = sections[1];
+        String end = sections[2];
 
         Event newEvent = new Event(description, false, start, end);
         tasks.add(newEvent);
@@ -175,15 +160,8 @@ public class Pixel {
      * @throws PixelException If the argument is missing or if the task number is invalid.
      */
     private static void markTask(String line) throws PixelException {
-        String[] words = line.split(" ");
-        if (words.length < 2) {
-            throw new PixelException("Usage: mark [task number]");
-        }
-
-        int id = Integer.parseInt(words[1]);
-        if (id < 1 || id > tasks.size()) {
-            throw new PixelException("Invalid task number");
-        }
+        Parser parser = new Parser(line);
+        int id = parser.parseTaskId(tasks);
 
         tasks.get(id - 1).setDone(true);
 
@@ -207,15 +185,8 @@ public class Pixel {
      * @throws PixelException If the argument is missing or if the task number is invalid.
      */
     private static void unmarkTask(String line) throws PixelException {
-        String[] words = line.split(" ");
-        if (words.length < 2) {
-            throw new PixelException("Usage: unmark [task number]");
-        }
-
-        int id = Integer.parseInt(words[1]);
-        if (id < 1 || id > tasks.size()) {
-            throw new PixelException("Invalid task number");
-        }
+        Parser parser = new Parser(line);
+        int id = parser.parseTaskId(tasks);
 
         tasks.get(id - 1).setDone(false);
 
@@ -239,15 +210,8 @@ public class Pixel {
      * @throws PixelException If the argument is missing or if the task number is invalid.
      */
     private static void deleteTask(String line) throws PixelException {
-        String[] words = line.split(" ");
-        if (words.length < 2) {
-            throw new PixelException("Usage: delete [task number]");
-        }
-
-        int id = Integer.parseInt(words[1]);
-        if (id < 1 || id > tasks.size()) {
-            throw new PixelException("Invalid task number");
-        }
+        Parser parser = new Parser(line);
+        int id = parser.parseTaskId(tasks);
 
         Task deletedTask = tasks.get(id - 1);
         tasks.remove(id - 1);
