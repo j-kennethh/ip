@@ -1,7 +1,5 @@
 package pixel;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,16 +19,17 @@ public class Pixel {
      * @param args Command line arguments passed to the application.
      */
     public static void main(String[] args) {
-        String line;
         Scanner in = new Scanner(System.in);
-
         Ui ui = new Ui();
+        Storage storage = new Storage(FILE_PATH);
 
         ui.printHello();
 
-        loadTasks();
+        storage.loadTasks(tasks);
 
+        String line;
         line = in.nextLine();
+
         while (!line.equals("bye")) {
             try {
                 if (line.equals("list")) {
@@ -265,49 +264,5 @@ public class Pixel {
         System.out.println(deletedTask);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Loads tasks from the storage file into the application's memory upon startup.
-     * Parses the file content to recreate ToDo, Deadline, and Event objects.
-     */
-    private static void loadTasks() {
-        File f = new File(FILE_PATH);
-
-        if (!f.exists()) {
-            return;
-        }
-
-        try {
-            Scanner s = new Scanner(f);
-            while (s.hasNext()) {
-                String line = s.nextLine();
-                String[] words = line.split(" \\| ");
-
-                if (line.startsWith("T")) {
-                    ToDo newTodo = new ToDo(words[2], strToBool(words[1]));
-                    tasks.add(newTodo);
-                } else if (line.startsWith("D")) {
-                    Deadline newDeadline = new Deadline(words[2], strToBool(words[1]), words[3]);
-                    tasks.add(newDeadline);
-                } else if (line.startsWith("E")) {
-                    Event newEvent = new Event(words[2], strToBool(words[1]), words[3], words[4]);
-                    tasks.add(newEvent);
-                }
-            }
-            s.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Helper method to convert a string "1" or "0" from the file to a boolean.
-     *
-     * @param value The string value ("1" for true, "0" for false).
-     * @return true if value is "1", false otherwise.
-     */
-    private static boolean strToBool(String value) {
-        return value.equals("1");
     }
 }
