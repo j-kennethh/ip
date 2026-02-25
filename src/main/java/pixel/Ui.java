@@ -3,7 +3,7 @@ package pixel;
 import java.util.ArrayList;
 
 public class Ui {
-    private final String HORIZONTAL_LINE = "____________________________________________________________";
+    private static final String HORIZONTAL_LINE = "____________________________________________________________";
 
     public Ui() {
     }

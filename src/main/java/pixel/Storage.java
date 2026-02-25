@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
-    private final String FILE_PATH;
+    private final String filePath;
 
-    public Storage(String FILE_PATH) {
-        this.FILE_PATH = FILE_PATH;
+    public Storage(String filePath) {
+        this.filePath = filePath;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Storage {
      * @throws IOException If the directory or file cannot be created.
      */
     public void checkFileExists() throws IOException {
-        File f = new File(FILE_PATH);
+        File f = new File(filePath);
 
         if (f.getParentFile() != null && !f.getParentFile().exists()) {
             if (!f.getParentFile().mkdirs()) {
@@ -44,7 +44,7 @@ public class Storage {
      */
     public void appendToFile(String text) throws IOException {
         checkFileExists();
-        FileWriter fw = new FileWriter(FILE_PATH, true);
+        FileWriter fw = new FileWriter(filePath, true);
         fw.write(text + System.lineSeparator());
         fw.close();
     }
@@ -59,7 +59,7 @@ public class Storage {
      */
     public void updateFile(int index, boolean isDone) throws IOException {
         checkFileExists();
-        File f = new File(FILE_PATH);
+        File f = new File(filePath);
         Scanner s = new Scanner(f);
         ArrayList<String> fileContent = new ArrayList<>();
 
@@ -79,7 +79,7 @@ public class Storage {
             fileContent.set(index, String.join(" | ", words));
         }
 
-        FileWriter fw = new FileWriter(FILE_PATH);
+        FileWriter fw = new FileWriter(filePath);
         for (String line : fileContent) {
             fw.write(line + System.lineSeparator());
         }
@@ -95,7 +95,7 @@ public class Storage {
      */
     public void deleteFromFile(int index) throws IOException {
         checkFileExists();
-        File f = new File(FILE_PATH);
+        File f = new File(filePath);
         Scanner s = new Scanner(f);
         ArrayList<String> fileContent = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class Storage {
             fileContent.remove(index);
         }
 
-        FileWriter fw = new FileWriter(FILE_PATH);
+        FileWriter fw = new FileWriter(filePath);
         for (String line : fileContent) {
             fw.write(line + System.lineSeparator());
         }
@@ -120,7 +120,7 @@ public class Storage {
      * Parses the file content to recreate ToDo, Deadline, and Event objects.
      */
     public void loadTasks(ArrayList<Task> tasks) {
-        File f = new File(FILE_PATH);
+        File f = new File(filePath);
 
         if (!f.exists()) {
             return;
