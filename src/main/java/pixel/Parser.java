@@ -63,4 +63,13 @@ public class Parser {
 
         return id;
     }
+
+    public String parseFind(ArrayList<Task> tasks) throws PixelException {
+        String[] words = line.split(" ");
+        if (words.length < 2) {
+            throw new PixelException("Usage: find [keyword]");
+        }
+
+        return words[1];
+    }
 }

@@ -160,6 +160,25 @@ public class TaskList {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public void findTasks(String line) throws PixelException {
+        Parser parser = new Parser(line);
+        String keyword = parser.parseFind(tasks);
+
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Here are the matching tasks in your list:");
+
+        int count = 1;
+
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                System.out.println(count + "." + task);
+                count++;
+            }
+        }
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
     /**
      * Deletes a task from the list and the storage file based on the provided index.
      *

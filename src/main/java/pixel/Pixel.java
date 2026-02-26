@@ -41,6 +41,8 @@ public class Pixel {
                     taskList.markTask(line);
                 } else if (line.startsWith("unmark")) {
                     taskList.unmarkTask(line);
+                } else if (line.startsWith("find")) {
+                    taskList.findTasks(line);
                 } else if (line.startsWith("delete")) {
                     taskList.deleteTask(line);
                 } else {

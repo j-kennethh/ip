@@ -21,7 +21,7 @@ public class Ui {
 
     public void printInvalidCommand() {
         System.out.println(HORIZONTAL_LINE);
-        System.out.println("Valid Commands: todo, deadline, event, list, mark, unmark, delete, bye");
+        System.out.println("Commands: todo, deadline, event, list, mark, unmark, find, delete, bye");
         System.out.println(HORIZONTAL_LINE);
     }
 
