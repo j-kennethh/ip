@@ -160,6 +160,15 @@ public class TaskList {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /**
+     * Searches for tasks that contain a specific keyword in their description and prints them.
+     * The keyword is extracted from the user's input line using the {@link Parser}.
+     * If any tasks match the keyword, they are displayed to the console as a
+     * sequentially numbered list.
+     *
+     * @param line The full user input string containing the find command and keyword (e.g., "find book").
+     * @throws PixelException If the command format is invalid or if the keyword is missing.
+     */
     public void findTasks(String line) throws PixelException {
         Parser parser = new Parser(line);
         String keyword = parser.parseFind(tasks);
