@@ -1,7 +1,12 @@
 package pixel;
 
+/**
+ * Represents a task that needs to be completed by a specific date or time.
+ * A Deadline task inherits from the base {@link Task} class and attaches
+ * a due date to the task description.
+ */
 public class Deadline extends Task {
-    private String date;
+    private final String date;
 
     /**
      * Constructs a new Deadline task with the specified description, status, and due date.
@@ -12,14 +17,6 @@ public class Deadline extends Task {
      */
     public Deadline(String description, boolean isDone, String date) {
         super(description, isDone);
-        this.date = date;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
         this.date = date;
     }
 
