@@ -7,9 +7,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles the loading and saving of tasks to a storage file.
+ * This class encapsulates all file I/O operations required to persist the task list
+ * across different sessions of the application.
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Constructs a new Storage instance.
+     *
+     * @param filePath The relative or absolute file path where the task data is stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
@@ -118,6 +128,8 @@ public class Storage {
     /**
      * Loads tasks from the storage file into the application's memory upon startup.
      * Parses the file content to recreate ToDo, Deadline, and Event objects.
+     *
+     * @param tasks The ArrayList where the loaded tasks will be stored.
      */
     public void loadTasks(ArrayList<Task> tasks) {
         File f = new File(filePath);

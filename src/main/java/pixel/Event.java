@@ -1,8 +1,13 @@
 package pixel;
 
+/**
+ * Represents a task that occurs over a specific duration.
+ * An Event task inherits from the base {@link Task} class and includes
+ * defined start and end times or dates.
+ */
 public class Event extends Task {
-    private String start;
-    private String end;
+    private final String start;
+    private final String end;
 
     /**
      * Constructs a new Event task with the specified description, status, and duration.
@@ -15,22 +20,6 @@ public class Event extends Task {
     public Event(String description, boolean isDone, String start, String end) {
         super(description, isDone);
         this.start = start;
-        this.end = end;
-    }
-
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
         this.end = end;
     }
 

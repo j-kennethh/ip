@@ -1,5 +1,11 @@
 package pixel;
 
+/**
+ * Represents a generic task in the Pixel application.
+ * This class encapsulates the common properties of all tasks, such as a description
+ * and a completion status. It serves as the base class for more specific task types
+ * like ToDo, Deadline, and Event.
+ */
 public class Task {
     private final String description;
     private boolean isDone;

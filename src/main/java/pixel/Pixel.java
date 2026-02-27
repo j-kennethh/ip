@@ -3,15 +3,20 @@ package pixel;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The main class for the Pixel application.
+ * Initializes the required components and manages the main execution loop.
+ */
 public class Pixel {
     public static final String FILE_PATH = "./data.txt";
 
     /**
      * The main entry point of the Pixel application.
      * <p>
-     * Initializes the application by loading existing tasks from the storage file.
+     * Initializes the application components including the UI, storage, and task list.
      * Runs the main command loop to process user input until the "bye" command is received.
-     * Handles command delegation and exception management.
+     * Delegates specific command execution to the TaskList and UI classes, and handles
+     * any application-specific exceptions.
      *
      * @param args Command line arguments passed to the application.
      */
