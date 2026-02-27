@@ -3,11 +3,21 @@ package pixel;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Represents the list of tasks and handles operations related to modifying the list.
+ * This class is responsible for adding, deleting, finding, and updating the status of tasks,
+ * as well as synchronizing these changes with the storage file.
+ */
 public class TaskList {
     private static final String HORIZONTAL_LINE = "____________________________________________________________";
     private final String filePath;
     private final ArrayList<Task> tasks;
 
+    /**
+     * Constructs a new TaskList instance and initializes an empty list of tasks.
+     *
+     * @param filePath The file path used to initialize the Storage instance for saving changes.
+     */
     public TaskList(String filePath) {
         this.filePath = filePath;
         this.tasks = new ArrayList<>();
@@ -171,7 +181,7 @@ public class TaskList {
      */
     public void findTasks(String line) throws PixelException {
         Parser parser = new Parser(line);
-        String keyword = parser.parseFind(tasks);
+        String keyword = parser.parseFind();
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the matching tasks in your list:");

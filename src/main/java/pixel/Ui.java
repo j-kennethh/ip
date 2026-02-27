@@ -2,9 +2,16 @@ package pixel;
 
 import java.util.ArrayList;
 
+/**
+ * Handles the user interface of the Pixel application.
+ * Responsible for formatting and displaying messages, prompts, and task lists to the console.
+ */
 public class Ui {
     private static final String HORIZONTAL_LINE = "____________________________________________________________";
 
+    /**
+     * Constructs a new Ui instance.
+     */
     public Ui() {
     }
 
@@ -19,6 +26,10 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /**
+     * Prints an error message for unrecognized inputs, along with the
+     * list of valid commands the user can input.
+     */
     public void printInvalidCommand() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Commands: todo, deadline, event, list, mark, unmark, find, delete, bye");
@@ -38,6 +49,8 @@ public class Ui {
     /**
      * Iterates through the list of tasks and prints them to the console.
      * The list index is generated dynamically (1-based index).
+     *
+     * @param tasks The list of tasks to be displayed.
      */
     public void listTasks(ArrayList<Task> tasks) {
         System.out.println(HORIZONTAL_LINE);
