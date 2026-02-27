@@ -58,7 +58,7 @@ public class TaskList {
     /**
      * Parses the command line input to create a new Deadline task.
      * Adds the task to the internal list and appends it to the storage file.
-     * Expects the format: "deadline [description] /by [date]".
+     * Expects the format: "deadline DESCRIPTION /by DATE".
      *
      * @param line The full user input string.
      * @throws PixelException If the command format is incorrect or arguments are missing.
@@ -90,7 +90,7 @@ public class TaskList {
     /**
      * Parses the command line input to create a new Event task.
      * Adds the task to the internal list and appends it to the storage file.
-     * Expects the format: "event [description] /from [start] /to [end]".
+     * Expects the format: "event DESCRIPTION /from START /to END".
      *
      * @param line The full user input string.
      * @throws PixelException If the command format is incorrect, or if tags are missing.

@@ -28,7 +28,7 @@ public class Parser {
     public String parseToDo() throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 2) {
-            throw new PixelException("Usage: todo [description]");
+            throw new PixelException("Usage: todo DESCRIPTION");
         }
 
         return line.substring(5);
@@ -36,7 +36,7 @@ public class Parser {
 
     /**
      * Parses the raw input line to extract the description and date for a Deadline task.
-     * Expects the format: "deadline [description] /by [date]".
+     * Expects the format: "deadline DESCRIPTION /by DATE".
      *
      * @return A String array with the description at index 0 and the date at index 1.
      * @throws PixelException If the format is incorrect or arguments are missing.
@@ -44,12 +44,12 @@ public class Parser {
     public String[] parseDeadline() throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 4 || !line.contains("/by")) {
-            throw new PixelException("Usage: deadline [description] /by [date]");
+            throw new PixelException("Usage: deadline DESCRIPTION /by DATE");
         }
 
         String[] sections = line.substring(9).split(" /by ");
         if (sections.length < 2) {
-            throw new PixelException("Usage: deadline [description] /by [date]");
+            throw new PixelException("Usage: deadline DESCRIPTION /by DATE");
         }
 
         return sections;
@@ -57,7 +57,7 @@ public class Parser {
 
     /**
      * Parses the raw input line to extract the description, start time, and end time for an Event task.
-     * Expects the format: "event [description] /from [start] /to [end]".
+     * Expects the format: "event DESCRIPTION /from START /to END".
      *
      * @return A String array with the description at index 0, the start time at index 1, and the end time at index 2.
      * @throws PixelException If the format is incorrect or tags are missing.
@@ -65,7 +65,7 @@ public class Parser {
     public String[] parseEvent() throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 6 || !line.contains("/from") || !line.contains("/to")) {
-            throw new PixelException("Usage: event [description] /from [start] /to [end]");
+            throw new PixelException("Usage: event DESCRIPTION /from START /to END");
         }
 
         int fromIndex = line.indexOf("/from");
@@ -111,7 +111,7 @@ public class Parser {
     public String parseFind() throws PixelException {
         String[] words = line.split(" ");
         if (words.length < 2) {
-            throw new PixelException("Usage: find [keyword]");
+            throw new PixelException("Usage: find KEYWORD");
         }
 
         return words[1];
