@@ -44,6 +44,7 @@ Commands: todo, deadline, event, list, mark, unmark, find, delete, bye
 ____________________________________________________________
 ```
 
+<br>
 
 ### Adding a todo: `todo`
 Adds a todo to the task list.
@@ -61,6 +62,7 @@ Now you have 1 tasks in the list.
 ____________________________________________________________
 ```
 
+<br>
 
 ### Adding a deadline: `deadline`
 Adds a deadline to the task list.
@@ -78,6 +80,7 @@ Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
 
+<br>
 
 ### Adding an event: `event`
 Adds an event to the task list.
@@ -95,6 +98,7 @@ Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
 
+<br>
 
 ### Listing all tasks: `list`
 Shows a list of all tasks in the task list.
@@ -111,6 +115,7 @@ Here are the tasks in your list:
 ____________________________________________________________
 ```
 
+<br>
 
 ### Marking a task: `mark`
 Marks the specified task as done in the task list.
@@ -127,6 +132,7 @@ Nice! I've marked this task as done:
 ____________________________________________________________
 ```
 
+<br>
 
 ### Unmarking a task: `unmark`
 Marks the specified task as not done in the task list.
@@ -144,6 +150,7 @@ ____________________________________________________________
 
 ```
 
+<br>
 
 ### Finding tasks by keyword: `find`
 Finds tasks whose description contain the given keyword.
@@ -165,6 +172,7 @@ Here are the matching tasks in your list:
 ____________________________________________________________
 ```
 
+<br>
 
 ### Deleting a task: `delete`
 Deletes the specified task from the task list.
@@ -193,6 +201,7 @@ Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
 
+<br>
 
 ### Exiting the program: `bye`
 Exits the program.
@@ -206,12 +215,14 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
+<br>
 
 ### Saving the data
 Task data are saved in the hard disk automatically after any command that changes the data.
 
 There is no need to save manually.
 
+<br>
 
 ### Editing the data file
 Task data are saved automatically as a text file `./data.txt`
