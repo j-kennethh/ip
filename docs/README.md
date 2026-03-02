@@ -38,6 +38,7 @@ Shows a message listing the valid commands for the app.
 Format: `help`
 
 ```
+help
 ____________________________________________________________
 Commands: todo, deadline, event, list, mark, unmark, find, delete, bye
 ____________________________________________________________
@@ -52,6 +53,7 @@ Format: `todo DESCRIPTION`
 Example: `todo read book`
 
 ```
+todo read book
 ____________________________________________________________
 Got it. I've added this task:
 [T][ ] read book
@@ -68,12 +70,12 @@ Format: `deadline DESCRIPTION /by DATE`
 Example: `deadline submit book review /by 6 March`
 
 ```
+deadline submit book review /by 6 March
 ____________________________________________________________
 Got it. I've added this task:
 [D][ ] submit book review (by: 6 March)
 Now you have 2 tasks in the list.
 ____________________________________________________________
-
 ```
 
 
@@ -85,6 +87,7 @@ Format: `event DESCRIPTION /from START /to END`
 Example: `event CS2113 lecture /from 4pm /to 6pm`
 
 ```
+event CS2113 lecture /from 4pm /to 6pm
 ____________________________________________________________
 Got it. I've added this task:
 [E][ ] CS2113 lecture (from: 4pm to: 6pm)
@@ -99,6 +102,7 @@ Shows a list of all tasks in the task list.
 Format: `list`
 
 ```
+list
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book
@@ -116,6 +120,7 @@ Format: `mark INDEX`
 Example: `mark 1`
 
 ```
+mark 1
 ____________________________________________________________
 Nice! I've marked this task as done:
 [T][X] read book
@@ -131,10 +136,12 @@ Format: `unmark INDEX`
 Example: `unmark 1`
 
 ```
+unmark 1
 ____________________________________________________________
 Ok, I've marked this task as not done yet:
 [T][ ] read book
 ____________________________________________________________
+
 ```
 
 
@@ -150,6 +157,7 @@ Format: `find KEYWORD`
 Example: `find book`
 
 ```
+find book
 ____________________________________________________________
 Here are the matching tasks in your list:
 1.[T][ ] read book
@@ -157,3 +165,85 @@ Here are the matching tasks in your list:
 ____________________________________________________________
 ```
 
+
+### Deleting a task: `delete`
+Deletes the specified task from the task list.
+
+Format: `delete INDEX`
+
+- Deletes the task at the specified index.
+- The index refers to the index number shown in the displayed task list.
+- The index must be a positive integer 1, 2, 3, ...
+
+Example: `list` followed by `delete 2`
+
+```
+list
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] read book
+2.[D][ ] submit book review (by: 6 March)
+3.[E][ ] CS2113 lecture (from: 4pm to: 6pm)
+____________________________________________________________
+delete 2
+____________________________________________________________
+Noted. I've removed this task:
+[D][ ] submit book review (by: 6 March)
+Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+
+### Exiting the program: `bye`
+Exits the program.
+
+Format: `bye`
+
+```
+bye
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+
+### Saving the data
+Task data are saved in the hard disk automatically after any command that changes the data.
+
+There is no need to save manually.
+
+
+### Editing the data file
+Task data are saved automatically as a text file `./data.txt`
+
+Advanced users are welcome to update data directly by editing that text file.
+
+Format for todo: `T | 0 or 1 | DESCRIPTION`
+
+Format for deadline: `D | 0 or 1 | DESCRIPTION | DATE`
+
+Format for event: `E | 0 or 1 | DESCRIPTION | START | END`
+
+0 denotes that a task is mark done, 1 denotes that a task is marked as not done
+
+Example:
+```
+T | 0 | read book
+D | 1 | submit book review | 6 March
+E | 0 | CS2113 lecture | 4pm | 6pm
+```
+
+
+## Command Summary
+| Action       | Format                                  | Example                                   |
+|--------------|-----------------------------------------|-------------------------------------------|
+| Help         | `help`                                  | `help`                                    |
+| Add todo     | `todo DESCRIPTION`                      | `todo read book`                          |
+| Add deadline | `deadline DESCRIPTION /by DATE`         | `deadline submit book review /by 6 March` |
+| Add event    | `event DESCRIPTION /from START /to END` | `event CS2113 lecture /from 4pm /to 6pm`  |
+| List         | `list`                                  | `list`                                    |
+| Mark         | `mark INDEX`                            | `mark 1`                                  |
+| Unmark       | `unmark INDEX`                          | `unmark 1`                                |
+| Find         | `find KEYWORD`                          | `find book`                               |
+| Delete       | `delete INDEX`                          | `delete 2`                                |
+| Exit         | `bye`                                   | `bye`                                     |
