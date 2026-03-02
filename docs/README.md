@@ -19,7 +19,7 @@ What can I do for you?
 ____________________________________________________________
 ```
 
-6. Type a command in the command line and press Enter to execute it. \
+Type a command in the command line and press Enter to execute it. \
 e.g. typing `help` and pressing Enter will list the commands you can use.
 
 Some example commands you can try:
@@ -28,7 +28,7 @@ Some example commands you can try:
 - `delete 3`: Deletes the 3rd task shown in the current list.
 - `bye`: Exits the app.
 
-7. Refer to the Features below for details of each command.
+Refer to the Features below for details of each command.
 
 <br>
 
