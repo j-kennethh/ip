@@ -9,7 +9,7 @@ Pixel is a desktop app for managing tasks, optimized for use via a Command Line 
 2. Download the latest `.jar` from [here](https://github.com/j-kennethh/ip/releases).
 3. Copy the file to the folder you want to use as the home folder for Pixel.
 4. Open a command terminal, `cd` into the folder you put the jar file in.
-5. Use the `java -jar pixel.jar` command to run the application.
+5. Use the `java -jar ip.jar` command to run the application.
 
 A welcome message similar to the one below should appear.
 ```
@@ -237,7 +237,7 @@ Format for deadline: `D | 0 or 1 | DESCRIPTION | DATE`
 
 Format for event: `E | 0 or 1 | DESCRIPTION | START | END`
 
-0 denotes that a task is mark done, 1 denotes that a task is marked as not done
+`0` denotes that a task is mark done and `1` denotes that a task is marked as not done
 
 Example:
 ```
