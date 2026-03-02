@@ -2,6 +2,7 @@
 
 Pixel is a desktop app for managing tasks, optimized for use via a Command Line Interface (CLI).
 
+<br>
 
 ## Quick Start
 1. Ensure that you have Java `17` installed on your computer.
@@ -29,6 +30,7 @@ Some example commands you can try:
 
 7. Refer to the Features below for details of each command.
 
+<br>
 
 ## Features
 
@@ -244,8 +246,10 @@ D | 1 | submit book review | 6 March
 E | 0 | CS2113 lecture | 4pm | 6pm
 ```
 
+<br>
 
 ## Command Summary
+
 | Action       | Format                                  | Example                                   |
 |--------------|-----------------------------------------|-------------------------------------------|
 | Help         | `help`                                  | `help`                                    |
