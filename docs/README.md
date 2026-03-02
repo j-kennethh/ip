@@ -237,7 +237,7 @@ Format for deadline: `D | 0 or 1 | DESCRIPTION | DATE`
 
 Format for event: `E | 0 or 1 | DESCRIPTION | START | END`
 
-`0` denotes that a task is mark done and `1` denotes that a task is marked as not done
+`0` denotes that a task is not done and `1` denotes that a task is done
 
 Example:
 ```
