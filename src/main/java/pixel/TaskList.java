@@ -172,6 +172,7 @@ public class TaskList {
 
     /**
      * Searches for tasks that contain a specific keyword in their description and prints them.
+     * The search is case-insensitive.
      * The keyword is extracted from the user's input line using the {@link Parser}.
      * If any tasks match the keyword, they are displayed to the console as a
      * sequentially numbered list.
@@ -181,7 +182,7 @@ public class TaskList {
      */
     public void findTasks(String line) throws PixelException {
         Parser parser = new Parser(line);
-        String keyword = parser.parseFind();
+        String keyword = parser.parseFind().toLowerCase();
 
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the matching tasks in your list:");
@@ -189,7 +190,7 @@ public class TaskList {
         int count = 1;
 
         for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
+            if (task.getDescription().toLowerCase().contains(keyword)) {
                 System.out.println(count + "." + task);
                 count++;
             }
